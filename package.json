@@ -1,0 +1,15 @@
+{
+  "name": "Proyecto_Web",
+  "version": "0.0.0",
+  "description": "Proyecto para tecnologías web",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ricardo Ortiz Valeria Carrillo",
+  "license": "MIT",
+  "dependencies": {
+    "express": "~4.13.4",
+    "ejs": "~2.4.1"
+  }
+}
