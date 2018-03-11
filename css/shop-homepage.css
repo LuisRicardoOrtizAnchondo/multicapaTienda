@@ -1,0 +1,86 @@
+
+
+body {
+    padding-top: 70px; /* NO cambiar :v */
+    
+
+}
+
+body < .row{
+    background-image: url(http://www.wallpaperun.com/wp-content/uploads/2016/03/Wallpaper-Tumblr-Coolest-B3X-1.jpg);
+    background-color: rgba(0, 0, 100, 0.5);
+}
+
+#Buscador {
+    align-self: right;
+    margin-left: 5px;
+}
+
+.slide-image {
+    width: 100%;
+}
+
+.carousel-holder {
+    margin-bottom: 30px;
+}
+
+.carousel-control,
+.item {
+    border-radius: 4px;
+}
+
+.caption {
+    /*height: 130px;*/
+    overflow: hidden;
+    width: 200px;
+    height: 350px;
+
+}
+
+.caption h4 {
+    white-space: nowrap;
+}
+
+.thumbnail img {
+    width: 100%;
+}
+
+.ratings {
+    padding-right: 10px;
+    padding-left: 10px;
+    color: #d17581;
+}
+
+.thumbnail {
+    padding: 0;
+}
+
+.thumbnail .caption-full {
+    padding: 9px;
+    color: #333;
+}
+
+footer {
+    margin: 50px 0;
+}
+/*#container*/
+
+/*.row {
+
+    width: 200;
+    height: 350;
+
+}
+
+.caption {
+
+    width: 200;
+    height: 350;
+    color:red;
+}*/
+/*
+.row {
+
+    width: 200px;
+    height: 150px;
+}*/

@@ -17,6 +17,7 @@ CREATE TABLE Producto
 	nombre_producto      VARCHAR(30) NOT NULL ,
 	descripcion			 VARCHAR(50) NOT NULL ,
 	precio				NUMERIC(10,2) NOT NULL,
+	imagen 	VARCHAR(30),
 	PRIMARY KEY (producto_id)
 );
 
