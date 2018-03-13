@@ -3,98 +3,26 @@ const app = express();
 const bodyParser = require('body-parser');
 const pg = require('pg');
 const cors = require('cors');
-const port = process.env.PORT || 3000;
-const favicon = require('serve-favicon');
-const logger = require('morgan');
-const cookieParser = require('cookie-parser');
+const port = process.env.PORT || 5000;
 const mongoose = require('mongoose');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
-
-const usuario = require('./routes/usuario');
-const producto = require('./routes/producto');
-const pedido = require('./routes/pedido');
-const entrada = require('./routes/entrada');
-
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'html');
-
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(require('express-session')({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: false
-}));
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(express.static(path.join(__dirname, 'public')));
-
-// passport config
-var Account = require('./models/account');
-passport.use(new LocalStrategy(Usuario.authenticate()));
-passport.serializeUser(Usuario.serializeUser());
-passport.deserializeUser(Usuario.deserializeUser());
-
-//facebook stuff
-passport.use(new FacebookStrategy({
-        clientID: '292701184584377',
-        clientSecret: 'd300560cd0a7422e557cffa00124cd88',
-        callbackURL: "http://localhost:3000/auth/facebook/callback"
-    },
-    function(accessToken, refreshToken, profile, cb) {
-        User.findOrCreate({ facebookId: profile.id }, function (err, user) {
-            if(err){
-                console.log("Error con facebook: " + err);
-            }
-            if(user){
-                return cb(err, user);
-            }else{
-                let account = new Account();
-                account.facebook.id = profile.id;
-                acccount.facebook.token = accessToken;
-                account.facebook.name = profile.givenName + ' ' + profile.familyName;
-                account.facebook.email = profile.emails[0].value();
-
-                account.save(function (err) {
-                    if(err){
-                        console.log("Error al salvar desde facebook: " + err);
-                    }
-                    return cb(err, account);
-                })
-            }
-        });
-    }
-));
-
-
+const cookieParser = require('cookie-parser');
 //Cadena de conexion
 const conString = process.env.DATABASE_URL || 'postgress://postgres:Jonas99pm@localhost:5432/cachorro';
+
 app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json());
 app.use(cors());
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', login);
-app.use('/productos', producto);
-app.use('/usuario', usuario);
-app.use('/pedido', pedido);
-app.use('/entrada', entrada);
 //Conexion con base
-var pgClient = new pg.Client(conString);
+const pgClient = new pg.Client(conString);
 
-app.get('/', function (req, res) {
-    res.send('Test');
-});
-var server = app.listen(port, function () {
-    var port = server.address().port;
+
+const server = app.listen(port, function () {
+    const port = server.address().port;
     console.log('API en ejecucion en el puerto', port, 'Lol');
 });
 
@@ -107,7 +35,7 @@ app.use(function (req, res, next) {
 });
 
 app.post('/productos', function(req, res){
-    var producto = {
+    const producto = {
 		nombre_producto: req.body.nombre_producto,
 		descripcion: req.body.descripcion,
 		precio: req.body.precio
@@ -120,7 +48,7 @@ app.post('/productos', function(req, res){
             });
             return console.log(error);
         }
-        var query = client.query("INSERT INTO producto (nombre_producto, descripcion, precio) values ($1, $2, $3)", [producto.nombre_producto, producto.descripcion, producto.precio]);
+        const query = client.query("INSERT INTO producto (nombre_producto, descripcion, precio) values ($1, $2, $3)", [producto.nombre_producto, producto.descripcion, producto.precio]);
         query.on('error', function(){
             done();
             res.status(400).send({error: true});
@@ -133,7 +61,7 @@ app.post('/productos', function(req, res){
 });
 
 app.delete('/productos/:id', function (req, res) {
-	var producto_id = req.params.id;
+	const producto_id = req.params.id;
 	pg.connect(conString, function (error, client, done) {
 		client.query("DELETE FROM PRODUCTO WHERE producto_id = $1",[producto_id], function(err, result) {
 			if (err) {
@@ -150,7 +78,7 @@ app.delete('/productos/:id', function (req, res) {
 
 app.get('/productos', function(req, res){
     pg.connect(conString, function (error, client, done) {
-    var query = client.query("SELECT * FROM producto",[], function (err, result) {
+    const query = client.query("SELECT * FROM producto",[], function (err, result) {
 		done();
 		if(err) {
 			res.status(500).json({
@@ -166,9 +94,9 @@ app.get('/productos', function(req, res){
 });
 
 app.post('/productos/search', function(req, res){
-    var producto = req.body.nombre_producto;
+    const producto = req.body.nombre_producto;
     pg.connect(conString, function (error, client, done) {
-    var query = client.query("SELECT * FROM producto WHERE nombre_producto LIKE $1", ["%"+producto+"%"], function (err, result) {
+    const query = client.query("SELECT * FROM producto WHERE nombre_producto LIKE $1", ["%"+producto+"%"], function (err, result) {
 		done();
 		if(err) {
 			res.status(500).json({
@@ -185,7 +113,7 @@ app.post('/productos/search', function(req, res){
 });
 
 app.post('/ticket', function(req,res){
-    var ticket = {
+    const ticket = {
       "comprador_id" : req.body.comprador_id,
         "producto_id" : req.body.producto_id,
         "cantidad" : req.body.cantidad
@@ -199,7 +127,7 @@ app.post('/ticket', function(req,res){
                 , "message": error
             });
         }
-        var query = client.query("INSERT INTO ventas (comprador_id, producto_id, cantidad) values ($1,$2,$3)", [ticket.comprador_id, ticket.producto_id,ticket.cantidad]);
+        const query = client.query("INSERT INTO ventas (comprador_id, producto_id, cantidad) values ($1,$2,$3)", [ticket.comprador_id, ticket.producto_id,ticket.cantidad]);
         
         query.on('error', function(error){
             done();
@@ -219,7 +147,7 @@ app.get('/ticket', function(req,res){
             done();
             console.error(error);
         }
-        var query = client.query("SELECT * FROM ventas",[],function (err, result) {
+        const query = client.query("SELECT * FROM ventas",[],function (err, result) {
 			done();
 			if (err) {
 				res.status(500).json({
@@ -234,13 +162,13 @@ app.get('/ticket', function(req,res){
 });
 
 app.get('/ticket/:id', function(req,res){
-	var comprador_id = req.params.id;
+	const comprador_id = req.params.id;
     pg.connect(conString, function (error, client, done) {
     if (error) {
             done();
             console.error(error);
         }
-        var query = client.query("SELECT * FROM ventas WHERE comprador_id = $1",[comprador_id],function (err, result) {
+        const query = client.query("SELECT * FROM ventas WHERE comprador_id = $1",[comprador_id],function (err, result) {
 			done();
 			if (err) {
 				res.status(500).json({
@@ -255,7 +183,7 @@ app.get('/ticket/:id', function(req,res){
 });
 
 app.post('/compradores', function(req,res){
-    var ticket = {
+    const ticket = {
       "nombre" : req.body.nombre,
         "tarjeta" : req.body.tarjeta
     };
@@ -264,7 +192,7 @@ app.post('/compradores', function(req,res){
     if (error) {
             console.error(error);
         }
-        var query = client.query("INSERT INTO comprador(nombre, tarjeta) values ($1,$2)", [ticket.nombre, ticket.tarjeta], function (err, result) {
+        const query = client.query("INSERT INTO comprador(nombre, tarjeta) values ($1,$2)", [ticket.nombre, ticket.tarjeta], function (err, result) {
 				done();
 			if (err){
 				res.sendStatus(400);
@@ -278,9 +206,9 @@ app.post('/compradores', function(req,res){
 });
 
 app.post('/compradores/search', function(req, res){
-    var comprador_id = req.body.id;
+    const comprador_id = req.body.id;
     pg.connect(conString, function (error, client, done) {
-    var query = client.query(
+    const query = client.query(
 		"SELECT * FROM comprador WHERE comprador_id = $1",
 		[comprador_id],
 		function (err, result) {
@@ -300,7 +228,7 @@ app.post('/compradores/search', function(req, res){
 });
 
 app.delete('/compradores/:id', function (req, res) {
-	var comprador_id = req.params.id;
+	const comprador_id = req.params.id;
 	pg.connect(conString, function (error, client, done) {
 		client.query("DELETE FROM COMPRADOR WHERE comprador_id = $1", [comprador_id], function (err, result) {
 			if (err) {

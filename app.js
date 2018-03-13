@@ -1,16 +1,92 @@
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
-var pg = require('pg');
-var cors = require('cors');
-var port = process.env.PORT || 5000;
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const pg = require('pg');
+const cors = require('cors');
+const port = process.env.PORT || 3000;
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const mongoose = require('mongoose');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
+const path = require('path');
+const usuario = require('./routes/usuario');
+const producto = require('./routes/producto');
+const pedido = require('./routes/pedido');
+const entrada = require('./routes/entrada');
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'html');
+
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(require('express-session')({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(express.static(path.join(__dirname, 'public')));
+
+// passport config
+var Usuario = require('./models/Usuario');
+passport.use(new LocalStrategy(Usuario.authenticate()));
+passport.serializeUser(Usuario.serializeUser());
+passport.deserializeUser(Usuario.deserializeUser());
+
+//facebook stuff
+passport.use(new FacebookStrategy({
+        clientID: '292701184584377',
+        clientSecret: 'd300560cd0a7422e557cffa00124cd88',
+        callbackURL: "http://localhost:3000/auth/facebook/callback"
+    },
+    function(accessToken, refreshToken, profile, cb) {
+        User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+            if(err){
+                console.log("Error con facebook: " + err);
+            }
+            if(user){
+                return cb(err, user);
+            }else{
+                let usuario = new usuario();
+                usuario.facebook.id = profile.id;
+                acccount.facebook.token = accessToken;
+                usuario.facebook.name = profile.givenName + ' ' + profile.familyName;
+                usuario.facebook.email = profile.emails[0].value();
+
+                usuario.save(function (err) {
+                    if(err){
+                        console.log("Error al salvar desde facebook: " + err);
+                    }
+                    return cb(err, usuario);
+                })
+            }
+        });
+    }
+));
+
+
 //Cadena de conexion
-var conString = process.env.DATABASE_URL || 'postgress://postgres:Jonas99pm@localhost:5432/cachorro';
+const conString = process.env.DATABASE_URL || 'postgress://postgres:Jonas99pm@localhost:5432/cachorro';
 app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json());
 app.use(cors());
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(express.static(path.join(__dirname, 'public')));
+
+//app.use('/', login);
+app.use('/productos', producto);
+app.use('/usuario', usuario);
+app.use('/pedido', pedido);
+app.use('/entrada', entrada);
 //Conexion con base
 var pgClient = new pg.Client(conString);
 

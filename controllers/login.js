@@ -1,7 +1,7 @@
 const express = require('express');
 const passport = require('passport');
-const Account = require('../models/account');
-const Subject = require('../models/subject')
+const Usuario = require('../models/Usuario');
+const FORBIDDEN_ERROR = 'Necesita permisos de admin para realizar esta accion';
 
 function index(req, res, next){
 
@@ -9,7 +9,7 @@ function index(req, res, next){
     Subject.find({'owner' : req.user._id}, (err, subjects) => {
       res.render('index', { user : req.user, subjects: subjects });
     });
-  } else {
+  }else {
     res.render('index', {});
   }
 
@@ -30,7 +30,7 @@ function index(req, res, next){
 }
 
 function subscribe(req, res, next) {
-    Account.register(new Account({ username : req.body.username, email: req.body.email }), req.body.password, (err, account) => {
+    Usuario.register(new Usuario({ username : req.body.username, email: req.body.email }), req.body.password, (err, account) => {
         if (err) {
           return res.render('index', { error : err.message });
         }
@@ -63,12 +63,105 @@ function auth(req, res, next){
   }
 }
 
+function getUser(req, res, next){
+  let id = req.params.id;
+  Usuario.find(id).exec(function(error, usuario){
+    if(error){
+      console.log(error);
+      return error;
+    }else{
+      return res.status(200).json(usuario);
+    }
+  });
+}
 
+function getUser(req, res, next) {
+  if(req.user.role == 'admin' || req.user.id == req.params.id){
+    let id = req.params.id;
+    Usuario.find(id).exec(function(error, user){
+      if(error){
+        console.log(error);
+        return error;
+      }else{
+        //Delete ALL those items
+        return res.status(200).json(user);
+      }
+    });
+  }else{
+    res.status(403).render('error', {error: FORBIDDEN_ERROR });
+  }
+  //res.render('index', {error: "Usuario o contraseña incorrecta"});
+}
+
+function searchUsers(req, res, next){
+  let query = req.params.str;
+    Usuario.find({name: query}).exec(function(error, usuarios){
+      if(error){
+        console.log(error);
+        return error;
+      }else{
+        return res.status(200).json(usuarios);
+      }
+    });
+}
+
+function userPedido(req, res, next){
+  let id = req.params.id;
+  if(req.user.role == 'admin' || req.user.id == req.params.id){
+    Pedido.find({'user': id}).exec(function(error, pedidos){
+      if(error){
+        console.log(error);
+        return error;
+      }else{
+        return res.status(200).json(pedidos);
+      }
+    });
+  }else{
+    res.status(403).render('error', {error: FORBIDDEN_ERROR });
+  }
+}
+
+function userPedidoEspecifico(req, res, next){
+  let id = req.params.id;
+  if(req.user.role == 'admin' || req.user.id == req.params.id){
+    Pedido.find({'user': id, '_id': idPedido}).exec(function(error, pedidos){
+      if(error){
+        console.log(error);
+        return error;
+      }else{
+        return res.status(200).json(pedidos);
+      }
+    });
+  }else{
+    res.status(403).render('error', {error: FORBIDDEN_ERROR });
+  }
+}
+
+function modifyUser(req, res, next){
+  let id = req.params.id;
+  if(req.user.role == 'admin' || req.user.id == req.params.id){
+    Usuario.find(id).exec(function(error, usuarios){
+      if(error){
+        console.log(error);
+        return error;
+      }else{
+        //TODO: modificar usuarios (update)
+        return res.status(200).json(usuarios);
+      }
+    });
+  }else{
+    res.status(403).render('error', {error: FORBIDDEN_ERROR });
+  }
+}
 
 module.exports ={
   index,
   subscribe,
   logout,
   error,
-  auth
+  auth,
+  getUser,
+  searchUsers,
+  userPedido,
+  userPedidoEspecifico
 };

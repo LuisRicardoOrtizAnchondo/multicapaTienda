@@ -1,9 +1,8 @@
 const express = require('express');
 const passport = require('passport');
-const Account = require('../models/account');
-const Subject = require('../models/subject')
+const Usuario = require('../models/Usuario');
 const Producto = require('../models/Producto');
-
+const FORBIDDEN_ERROR = 'Necesita permisos de admin para realizar esta accion';
 
 function getAllProducts(req, res, next){
 	Producto.find().exec(function(error, productos){
@@ -15,7 +14,7 @@ function getAllProducts(req, res, next){
 		}
 	});
 }
-//Punto extra <3
+//Punto extra <3 (Pagination)
 function getProducts(req, res, next){
 	let page = Number(req.params.page);
 	let limit = Number(req.params.size);
@@ -44,7 +43,7 @@ function getOneProduct(req, res, next){
 
 function searchProducts(req, res, next){
 	let query = req.params.str;
-		Producto.find({name: query}}).exec(function(error, productos){
+		Producto.find({name: query}).exec(function(error, productos){
 		if(error){
 			console.log(error);
 			return error;
@@ -84,7 +83,7 @@ function deleteAllProducts(req, res, next){
 			}
 		});
 	}else{
-		res.status(403).render('error', {error: 'Necesita permisos de admin para realizar esta accion'});
+		res.status(403).render('error', {error: FORBIDDEN_ERROR });
 	}
 }
 
@@ -101,13 +100,17 @@ function deleteProduct(req, res, next){
 			}
 		});
 	}else{
-		res.status(403).render('error', {error: 'Necesita permisos de admin para realizar esta accion'});
+		res.status(403).render('error', {error: FORBIDDEN_ERROR });
 	}
 }
 
 function createProduct(req, res, next){
 	let product = req.body;
+	if(req.usuario.role == 'admin'){
 
+	}else{
+		res.status(403).render('error', {error: FORBIDDEN_ERROR });
+	}
 }
 
 module.exports = {
@@ -117,5 +120,6 @@ module.exports = {
 	searchProducts,
 	modifyProduct,
 	deleteAllProducts,
-	deleteProduct
+	deleteProduct,
+	createProduct
 }

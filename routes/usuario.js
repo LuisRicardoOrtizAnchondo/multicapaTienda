@@ -1,15 +1,23 @@
 const express = require('express');
-const homeworkController = require('../controllers/homework');
-const login = require('../controllers/login')
+const usuarioController = require('../controllers/login');
+//const login = require('../controllers/login')
 const router = express.Router();
 
-router.use(login.auth)
+router.use(usuarioController.auth)
 
-router.get('/', homeworkController.findUserHomeworks);
-router.get('/new', homeworkController.newHomework);
-router.post('/new', homeworkController.saveHomework);
-router.get('/modify/:id', homeworkController.modifyHomeworkView);
-router.post('/modify', homeworkController.modifyHomework);
-router.post('/markAsDone', homeworkController.markHomeworkAsDone);
+//router.get('/', usuarioController.getAllUsers);
+router.get('/:id', usuarioController.getUser);
+router.get('/query/:str', usuarioController.searchUsers);
+//router.get('/new', usuarioController.createUserView);
+router.get('/:id/pedidos', usuarioController.userPedido);
+router.get('/:id/pedido/:idPedido', usuarioController.userPedidoEspecifico);
+/*
+router.post('/:id', usuarioController.modifyUser);
+//router.post('/new', usuarioController.createUser);
+router.post('/:id/:pedido/prods', usuarioController.createUser);
+router.post('/:id/:pedido/addProd/:canti/:idProd', usuarioController.createUserView);
 
+router.delete('/:id', usuarioController.deleteUser);
+router.delete('/:id/:pedido/prods/delete/:idProd', usuarioController.createUser);
+*/
 module.exports = router;
