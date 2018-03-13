@@ -29,6 +29,32 @@ function index(req, res, next){
   // }
 }
 
+function registerView(req, res, next) {
+    res.render('register');
+}
+
+function register(req, res, next) {
+    Usuario.register(new Usuario({ username : req.body.username }), req.body.password, function(err, account) {
+        if (err) {
+            return res.render('register', { error : err.message });
+        }
+
+        passport.authenticate('local')(req, res, function () {
+            req.session.save(function (err) {
+                if (err) {
+                    return next(err);
+                }
+                res.redirect('/');
+            });
+        });
+    });
+}
+
+function loginView(req, res, next) {
+    res.render('login');
+    return 'Pagina Renderizada!';
+}
+
 function subscribe(req, res, next) {
     Usuario.register(new Usuario({ username : req.body.username, email: req.body.email }), req.body.password, (err, account) => {
         if (err) {
@@ -62,19 +88,28 @@ function auth(req, res, next){
     res.redirect('/')
   }
 }
-
+/*pruebas de aceptacion
+toast error?
+informaicon de perfil
+loginpublicaicon*/
 function getUser(req, res, next){
   let id = req.params.id;
-  Usuario.find(id).exec(function(error, usuario){
-    if(error){
-      console.log(error);
-      return error;
-    }else{
-      return res.status(200).json(usuario);
-    }
-  });
-}
 
+  try {
+      Usuario.findById(id).exec(function (error, usuario) {
+          if (error) {
+              console.log(error);
+              return error;
+          } else {
+              return res.status(200).json(usuario);
+          }
+      });
+  }catch(e){
+      console.log(e);
+      return e;
+  }
+}
+/*
 function getUser(req, res, next) {
   if(req.user.role == 'admin' || req.user.id == req.params.id){
     let id = req.params.id;
@@ -91,7 +126,7 @@ function getUser(req, res, next) {
     res.status(403).render('error', {error: FORBIDDEN_ERROR });
   }
   //res.render('index', {error: "Usuario o contraseña incorrecta"});
-}
+}*/
 
 function searchUsers(req, res, next){
   let query = req.params.str;
@@ -156,6 +191,10 @@ function modifyUser(req, res, next){
 
 module.exports ={
   index,
+  registerView,
+  register,
+  //login,
+  loginView,
   subscribe,
   logout,
   error,

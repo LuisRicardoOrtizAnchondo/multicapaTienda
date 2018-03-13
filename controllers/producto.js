@@ -5,7 +5,7 @@ const Producto = require('../models/Producto');
 const FORBIDDEN_ERROR = 'Necesita permisos de admin para realizar esta accion';
 
 function getAllProducts(req, res, next){
-	Producto.find().exec(function(error, productos){
+	Producto.findById().exec(function(error, productos){
 		if(error){
 			console.log(error);
 			return error;
@@ -14,7 +14,7 @@ function getAllProducts(req, res, next){
 		}
 	});
 }
-//Punto extra <3 (Pagination)
+//Punto extra <3 (Pagination) selenium?
 function getProducts(req, res, next){
 	let page = Number(req.params.page);
 	let limit = Number(req.params.size);
@@ -73,7 +73,7 @@ function modifyProduct(req, res, next){
 function deleteAllProducts(req, res, next){
 	if(req.usuario.role == 'admin'){
 		let id = req.body.id;
-			Producto.find().exec(function(error, productos){
+			Producto.findById(id).exec(function(error, productos){
 			if(error){
 				console.log(error);
 				return error;
