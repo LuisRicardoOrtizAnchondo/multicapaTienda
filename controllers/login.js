@@ -5,13 +5,13 @@ const FORBIDDEN_ERROR = 'Necesita permisos de admin para realizar esta accion';
 
 function index(req, res, next){
 
-  if (req.user) {
+  /*if (req.user) {
     Subject.find({'owner' : req.user._id}, (err, subjects) => {
       res.render('index', { user : req.user, subjects: subjects });
     });
   }else {
     res.render('index', {});
-  }
+  }*/
 
   // let subjects = [
   //   {name: "Matemáticas", teacher: "Rosa Palazuelos", schedule: [{day: "Miercoles", start: "10:00", end: "11:00"}, {day: "Viernes", start: "12:00", end: "13:00"}], classroom: "E-27", color: "pink"},
@@ -34,20 +34,28 @@ function registerView(req, res, next) {
 }
 
 function register(req, res, next) {
-    Usuario.register(new Usuario({ username : req.body.username }), req.body.password, function(err, account) {
-        if (err) {
-            return res.render('register', { error : err.message });
-        }
-
-        passport.authenticate('local')(req, res, function () {
-            req.session.save(function (err) {
-                if (err) {
-                    return next(err);
-                }
-                res.redirect('/');
+    console.log(req.body);
+    try{
+        Usuario.register(new Usuario({ username : req.body.username }), req.body.password, function(err) {
+            console.log('Fuardadno el usuario');
+            if (err) {
+                console.log(err);
+                return res.render('register', { error : err.message });
+            }
+            console.log('autenticando');
+            passport.authenticate('local')(req, res, function () {
+                req.session.save(function (err) {
+                    if (err) {
+                        return next(err);
+                    }
+                    res.redirect('/');
+                });
             });
         });
-    });
+    }catch(e){
+        res.send(e);
+
+    };
 }
 
 function loginView(req, res, next) {
@@ -55,21 +63,6 @@ function loginView(req, res, next) {
     return 'Pagina Renderizada!';
 }
 
-function subscribe(req, res, next) {
-    Usuario.register(new Usuario({ username : req.body.username, email: req.body.email }), req.body.password, (err, account) => {
-        if (err) {
-          return res.render('index', { error : err.message });
-        }
-        passport.authenticate('local')(req, res, () => {
-            req.session.save(function (err) {
-                if (err) {
-                    return next(err);
-                }
-                res.redirect('/');
-            });
-        });
-    });
-}
 
 function logout(req, res, next) {
     //As seen in passport's documentation
@@ -94,20 +87,25 @@ informaicon de perfil
 loginpublicaicon*/
 function getUser(req, res, next){
   let id = req.params.id;
-
-  try {
-      Usuario.findById(id).exec(function (error, usuario) {
+  console.log(id);
+    try {
+      Usuario.find({username: id}, function (error, usuario) {
+          console.log("Obtenindo usuario..." + id);
           if (error) {
               console.log(error);
               return error;
           } else {
-              return res.status(200).json(usuario);
+              //console.log('USUARIO:'.blue);
+              //console.log(usuario);
+              return JSON.parse(usuario);
+              res.status(200).json(usuario);
           }
       });
   }catch(e){
       console.log(e);
       return e;
   }
+  //res.send(200);
 }
 /*
 function getUser(req, res, next) {
@@ -195,7 +193,6 @@ module.exports ={
   register,
   //login,
   loginView,
-  subscribe,
   logout,
   error,
   auth,
