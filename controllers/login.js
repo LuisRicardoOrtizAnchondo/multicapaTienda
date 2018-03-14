@@ -48,7 +48,7 @@ function register(req, res, next) {
                     if (err) {
                         return next(err);
                     }
-                    res.redirect('/');
+                    return res.redirect('/');
                 });
             });
         });
@@ -76,9 +76,11 @@ function error(req, res, next) {
 
 function auth(req, res, next){
   if (req.user) {
-    next()
+    next();
+    return 'logged';
   } else {
-    res.redirect('/')
+    res.redirect('/');
+    return 'not_logged';
   }
 }
 /*pruebas de aceptacion
