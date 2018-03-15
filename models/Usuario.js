@@ -3,10 +3,12 @@ const Schema = mongoose.Schema;
 const passportLocalMongoose = require('passport-local-mongoose');
 
 var Usuario = new Schema({
-    username: String,
-    password: String,
-    email: String,
-    verified: Boolean,
+        //_id: Schema.ObjectId,
+        username: {type: String, required: true},
+        password: {type: String, required: true},
+        email: String,
+        verified: Boolean,
+        role: {type: String, default: 'customer'}
 });
 
 Usuario.plugin(passportLocalMongoose);

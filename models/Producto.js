@@ -3,8 +3,9 @@ const Schema = mongoose.Schema;
 const passportLocalMongoose = require('passport-local-mongoose');
 
 var Producto = new Schema({
-    nombre: String,
-    precio: Number
+    //_id: {type: String, required: true},
+    nombre: {type: String, required: true},
+    precio: {type: Number, required: true}
 });
 
 Producto.plugin(passportLocalMongoose);

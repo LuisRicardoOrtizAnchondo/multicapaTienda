@@ -1,16 +1,25 @@
 const express = require('express');
 const usuarioController = require('../controllers/login');
-//const login = require('../controllers/login')
 const router = express.Router();
-
-router.use(usuarioController.auth)
+const passport = require('passport');
+//router.use(usuarioController.auth)
 
 //router.get('/', usuarioController.getAllUsers);
-router.get('/:id', usuarioController.getUser);
+router.get('/login', usuarioController.loginView);
+router.get('/id/:id', usuarioController.getUser);
 router.get('/query/:str', usuarioController.searchUsers);
 //router.get('/new', usuarioController.createUserView);
-router.get('/:id/pedidos', usuarioController.userPedido);
-router.get('/:id/pedido/:idPedido', usuarioController.userPedidoEspecifico);
+router.get('/id/:id/pedidos', usuarioController.userPedido);
+router.get('/id/:id/pedidos/:idPedido', usuarioController.userPedidoEspecifico);
+router.get('/register', usuarioController.registerView);
+router.get('/', usuarioController.index);
+router.post('/register', usuarioController.register);
+
+router.post('/login', passport.authenticate('local'), function(req, res) {
+    res.redirect('/');
+});
+
+
 /*
 router.post('/:id', usuarioController.modifyUser);
 //router.post('/new', usuarioController.createUser);

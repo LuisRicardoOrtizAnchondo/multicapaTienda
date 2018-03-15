@@ -2,9 +2,9 @@ const express = require('express');
 const passport = require('passport');
 const Usuario = require('../models/Usuario');
 const FORBIDDEN_ERROR = 'Necesita permisos de admin para realizar esta accion';
-
+const Pedido = require('../models/Pedido');
 function index(req, res, next){
-
+    res.render('index');
   /*if (req.user) {
     Subject.find({'owner' : req.user._id}, (err, subjects) => {
       res.render('index', { user : req.user, subjects: subjects });
@@ -99,7 +99,7 @@ function getUser(req, res, next){
           } else {
               //console.log('USUARIO:'.blue);
               //console.log(usuario);
-              return JSON.parse(usuario);
+              //return JSON.parse(usuario);
               res.status(200).json(usuario);
           }
       });
@@ -130,7 +130,7 @@ function getUser(req, res, next) {
 
 function searchUsers(req, res, next){
   let query = req.params.str;
-    Usuario.find({name: query}).exec(function(error, usuarios){
+    Usuario.find({username: query}).exec(function(error, usuarios){
       if(error){
         console.log(error);
         return error;
@@ -142,7 +142,7 @@ function searchUsers(req, res, next){
 
 function userPedido(req, res, next){
   let id = req.params.id;
-  if(req.user.role == 'admin' || req.user.id == req.params.id){
+  //if(req.user.role == 'admin' || req.user.id == req.params.id){
     Pedido.find({'user': id}).exec(function(error, pedidos){
       if(error){
         console.log(error);
@@ -151,15 +151,15 @@ function userPedido(req, res, next){
         return res.status(200).json(pedidos);
       }
     });
-  }else{
-    res.status(403).render('error', {error: FORBIDDEN_ERROR });
-  }
+  //}else{
+  //  res.status(403).render('error', {error: FORBIDDEN_ERROR });
+  //}
 }
 
 function userPedidoEspecifico(req, res, next){
   let id = req.params.id;
-  if(req.user.role == 'admin' || req.user.id == req.params.id){
-    Pedido.find({'user': id, '_id': idPedido}).exec(function(error, pedidos){
+  //if(req.user.role == 'admin' || req.user.id == req.params.id){
+    Pedido.find({'user': id}).exec(function(error, pedidos){
       if(error){
         console.log(error);
         return error;
@@ -167,9 +167,9 @@ function userPedidoEspecifico(req, res, next){
         return res.status(200).json(pedidos);
       }
     });
-  }else{
-    res.status(403).render('error', {error: FORBIDDEN_ERROR });
-  }
+  //}else{
+  //  res.status(403).render('error', {error: FORBIDDEN_ERROR });
+  //}
 }
 
 function modifyUser(req, res, next){

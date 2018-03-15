@@ -5,7 +5,7 @@ const Producto = require('../models/Producto');
 const FORBIDDEN_ERROR = 'Necesita permisos de admin para realizar esta accion';
 
 function getAllProducts(req, res, next){
-	Producto.findById().exec(function(error, productos){
+	Producto.find().exec(function(error, productos){
 		if(error){
 			console.log(error);
 			return error;

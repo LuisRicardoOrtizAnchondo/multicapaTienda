@@ -16,7 +16,10 @@ const usuario = require('./routes/usuario');
 const producto = require('./routes/producto');
 const pedido = require('./routes/pedido');
 const entrada = require('./routes/entrada');
+const engines = require('consolidate');
 
+
+app.engine('html', engines.hogan);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 
@@ -29,15 +32,17 @@ app.use(require('express-session')({
     resave: false,
     saveUninitialized: false
 }));
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(express.static(path.join(__dirname, 'public')));
 
 // passport config
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(express.static(path.join('public')));
 var Usuario = require('./models/Usuario');
 passport.use(new LocalStrategy(Usuario.authenticate()));
 passport.serializeUser(Usuario.serializeUser());
 passport.deserializeUser(Usuario.deserializeUser());
+
+
 
 //facebook stuff
 passport.use(new FacebookStrategy({
@@ -72,7 +77,7 @@ passport.use(new FacebookStrategy({
 
 
 //Cadena de conexion
-const conString = process.env.DATABASE_URL || 'postgress://postgres:Jonas99pm@localhost:5432/cachorro';
+const conString = process.env.DATABASE_URL || 'postgress://postgres:root@localhost:5432/cachorro';
 app.use(bodyParser.urlencoded({
     extended: true
 }));
@@ -84,15 +89,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //app.use('/', login);
 app.use('/productos', producto);
-app.use('/usuario', usuario);
+app.use('/', usuario);
 app.use('/pedido', pedido);
 app.use('/entrada', entrada);
 //Conexion con base
 var pgClient = new pg.Client(conString);
 
-app.get('/', function (req, res) {
-    res.send('Test');
-});
 var server = app.listen(port, function () {
     var port = server.address().port;
     console.log('API en ejecucion en el puerto', port, 'Lol');
@@ -314,3 +316,5 @@ app.delete('/compradores/:id', function (req, res) {
 		})
 	});
 });
+
+module.exports = app;
