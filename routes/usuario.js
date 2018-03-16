@@ -36,6 +36,8 @@ router.delete('/query/:str', usuarioController.searchDeleteUser);
 
 router.get('/:id/:pedido/addProd/:canti/:idProd', usuarioController.addProduct);
 router.get('/:id/pedidos', usuarioController.userPedido);
+router.get('/:id/:pedido/prods', usuarioController.getUserProducts);
+router.get('/:id/:pedido/', usuarioController.usuarioPedido);
 //curl -X GET http://localhost:3000/user/Canito/pedidos  -H 'Content-Type: application/json'
 
 

@@ -14,10 +14,11 @@ var Pedido = new Schema({
 
 //Pedido.plugin(passportLocalMongoose);
 module.exports = mongoose.model('Pedido', Pedido);
-
+/*
 var Pedido = {
     username: 'Canito',//'alguien@alguien.com',//{type: Schema.ObjectId, ref: 'Usuario'},
     total: 115,
     iva: 15,
     subTotal: 100,
 }
+*/

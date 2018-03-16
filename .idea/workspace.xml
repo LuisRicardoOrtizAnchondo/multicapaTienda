@@ -33,14 +33,8 @@
       <change type="DELETED" beforePath="$PROJECT_DIR$/db/seeds.rb" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/index.html" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/richie.sql" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/login.js" afterPath="$PROJECT_DIR$/controllers/login.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/pedido.js" afterPath="$PROJECT_DIR$/controllers/pedido.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/Entrada.js" afterPath="$PROJECT_DIR$/models/Entrada.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/usuario.js" afterPath="$PROJECT_DIR$/controllers/usuario.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/Pedido.js" afterPath="$PROJECT_DIR$/models/Pedido.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/Usuario.js" afterPath="$PROJECT_DIR$/models/Usuario.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/entrada.js" afterPath="$PROJECT_DIR$/routes/entrada.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/usuario.js" afterPath="$PROJECT_DIR$/routes/usuario.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -65,11 +59,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="usuario.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/controllers/usuario.js">
+      <file leaf-file-name="pedido.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes/pedido.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="714">
-              <caret line="114" column="36" lean-forward="false" selection-start-line="114" selection-start-column="36" selection-end-line="114" selection-end-column="36" />
+            <state relative-caret-position="72">
+              <caret line="4" column="2" lean-forward="false" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
               <folding />
             </state>
           </provider>
@@ -78,38 +72,28 @@
       <file leaf-file-name="usuario.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/usuario.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="558">
-              <caret line="37" column="57" lean-forward="false" selection-start-line="37" selection-start-column="57" selection-end-line="37" selection-end-column="57" />
+            <state relative-caret-position="536">
+              <caret line="38" column="59" lean-forward="false" selection-start-line="38" selection-start-column="59" selection-end-line="38" selection-end-column="59" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Pedido.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/Pedido.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="9" column="4" lean-forward="true" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="9" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Entrada.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/Entrada.js">
+      <file leaf-file-name="producto.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes/producto.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="37" lean-forward="true" selection-start-line="0" selection-start-column="37" selection-end-line="0" selection-end-column="37" />
+              <caret line="0" column="35" lean-forward="true" selection-start-line="0" selection-start-column="35" selection-end-line="0" selection-end-column="35" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="entrada.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/controllers/entrada.js">
+      <file leaf-file-name="usuario.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/controllers/usuario.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="336">
+              <caret line="148" column="33" lean-forward="true" selection-start-line="148" selection-start-column="33" selection-end-line="148" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -133,7 +117,6 @@
       <find>id</find>
       <find>getuser</find>
       <find>searchuser</find>
-      <find>pedido</find>
       <find>serachuser</find>
       <find>userpedido</find>
       <find>loginview</find>
@@ -153,10 +136,11 @@
       <find>findByIdAndUpdate(id, req.body, function(error, productos){</find>
       <find>passp</find>
       <find>addpr</find>
-      <find>addpro</find>
       <find>res</find>
-      <find>add</find>
       <find>pedi</find>
+      <find>addpro</find>
+      <find>pedido</find>
+      <find>add</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -180,12 +164,12 @@
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/routes/producto.js" />
         <option value="$PROJECT_DIR$/routes/pedido.js" />
-        <option value="$PROJECT_DIR$/routes/usuario.js" />
         <option value="$PROJECT_DIR$/controllers/login.js" />
         <option value="$PROJECT_DIR$/controllers/producto.js" />
         <option value="$PROJECT_DIR$/routes/entrada.js" />
         <option value="$PROJECT_DIR$/models/Entrada.js" />
         <option value="$PROJECT_DIR$/models/Pedido.js" />
+        <option value="$PROJECT_DIR$/routes/usuario.js" />
         <option value="$PROJECT_DIR$/controllers/usuario.js" />
       </list>
     </option>
@@ -235,33 +219,12 @@
             <path>
               <item name="proyecto-web-vale-richi" type="b2602c69:ProjectViewProjectNode" />
               <item name="proyecto-web-vale-richi" type="462c0819:PsiDirectoryNode" />
-              <item name="config" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="proyecto-web-vale-richi" type="b2602c69:ProjectViewProjectNode" />
-              <item name="proyecto-web-vale-richi" type="462c0819:PsiDirectoryNode" />
               <item name="controllers" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="proyecto-web-vale-richi" type="b2602c69:ProjectViewProjectNode" />
               <item name="proyecto-web-vale-richi" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="proyecto-web-vale-richi" type="b2602c69:ProjectViewProjectNode" />
-              <item name="proyecto-web-vale-richi" type="462c0819:PsiDirectoryNode" />
               <item name="routes" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="proyecto-web-vale-richi" type="b2602c69:ProjectViewProjectNode" />
-              <item name="proyecto-web-vale-richi" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="proyecto-web-vale-richi" type="b2602c69:ProjectViewProjectNode" />
-              <item name="proyecto-web-vale-richi" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="register.jade" type="620a8d5e:NestingTreeNode" />
             </path>
           </expand>
           <select />
@@ -313,12 +276,12 @@
       <workItem from="1520901776752" duration="7236000" />
       <workItem from="1520949436435" duration="34081000" />
       <workItem from="1521127236436" duration="22659000" />
-      <workItem from="1521228342214" duration="3203000" />
+      <workItem from="1521228342214" duration="6309000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="67179000" />
+    <option name="totallyTimeSpent" value="70285000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="-1" width="1922" height="1061" extended-state="6" />
@@ -608,14 +571,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="10" column="2" lean-forward="false" selection-start-line="10" selection-start-column="2" selection-end-line="10" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/passport-local-mongoose/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1759">
@@ -652,14 +607,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/producto.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="35" lean-forward="true" selection-start-line="0" selection-start-column="35" selection-end-line="0" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/Producto.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -683,34 +630,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/pedido.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="2" lean-forward="false" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/controllers/login.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="282">
           <caret line="210" column="0" lean-forward="false" selection-start-line="210" selection-start-column="0" selection-end-line="217" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/producto.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="48" lean-forward="false" selection-start-line="4" selection-start-column="48" selection-end-line="4" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/entrada.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="2" lean-forward="false" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
           <folding />
         </state>
       </provider>
@@ -731,26 +654,66 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/producto.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" column="48" lean-forward="false" selection-start-line="4" selection-start-column="48" selection-end-line="4" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/models/Pedido.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="9" column="4" lean-forward="true" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="9" />
+        <state relative-caret-position="414">
+          <caret line="23" column="2" lean-forward="false" selection-start-line="23" selection-start-column="2" selection-end-line="23" selection-end-column="2" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/usuario.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="558">
-          <caret line="37" column="57" lean-forward="false" selection-start-line="37" selection-start-column="57" selection-end-line="37" selection-end-column="57" />
+        <state relative-caret-position="536">
+          <caret line="38" column="59" lean-forward="false" selection-start-line="38" selection-start-column="59" selection-end-line="38" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/entrada.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" column="2" lean-forward="false" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="10" column="2" lean-forward="false" selection-start-line="10" selection-start-column="2" selection-end-line="10" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/pedido.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" column="2" lean-forward="false" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/producto.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="35" lean-forward="true" selection-start-line="0" selection-start-column="35" selection-end-line="0" selection-end-column="35" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/usuario.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="714">
-          <caret line="114" column="36" lean-forward="false" selection-start-line="114" selection-start-column="36" selection-end-line="114" selection-end-column="36" />
+        <state relative-caret-position="336">
+          <caret line="148" column="33" lean-forward="true" selection-start-line="148" selection-start-column="33" selection-end-line="148" selection-end-column="33" />
           <folding />
         </state>
       </provider>

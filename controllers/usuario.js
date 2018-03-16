@@ -83,7 +83,7 @@ function addProduct(req, res, next){
     let canti = req.params.canti;
     //let idPedido = new Object(req.params.pedido);
     let idPedido = req.params.pedido;
-    let idUsuario = req.params.idUsuario; //usar username
+    let idUsuario = req.params.id; //usar username
     try {
         Producto.findById(idProd, function (error, producto) {
             console.log(producto);
@@ -110,9 +110,21 @@ function addProduct(req, res, next){
                     if(pedido.prods) {
                         pedido.prods.push(entradaNueva._id);
                     }
+
                     pedido.save(function(ee){
-                        console.log(ee);
-                        res.send(200);
+                        Producto.find({},function(eee,productos){
+                            pedido.populate(productos, {path: "prods"}, function(errors, complete){
+                                //console.log(ee);
+                                console.log(complete);
+                                if(errors){
+                                    console.log(errors);
+                                    res.send(errors);
+                                }
+                                res.status(200).json(complete);
+                            });
+                        });
+
+
                     });
                 })
                 //Pedido.findById(idPedido);
@@ -120,8 +132,29 @@ function addProduct(req, res, next){
         });
     }catch(e){
         console.log(e);
+        res.send(e);
     };
     //Pedido.findByIdAndUpdate(idPedido, );
+}
+
+function getUserProducts(req, res, next){
+    let idPedido = req.params.pedido;
+    let idUsuario = req.params.id; //usar username
+    Usuario.findById(idUsuario,function(err, usuario){
+        Pedido.findById(idPedido, function(error,pedido){
+            if(error){
+                console.log(error);
+            }
+            //TODO: use populate
+            let productsArray = [];
+
+            Producto.populate(pedido, {"path": "prods"}, function(e, prods){
+                res.status(200).json(prods);
+            });
+            //res.status(200).json(pedido.prods);
+
+        })
+    });
 }
 
 function userPedido(req, res, next){
@@ -138,6 +171,25 @@ function userPedido(req, res, next){
   //}else{
   //  res.status(403).render('error', {error: FORBIDDEN_ERROR });
   //}
+}
+
+function usuarioPedido(req, res, next){
+    let id = req.params.id;
+    let idPedido = req.params.pedido;
+    //if(req.user.role == 'admin' || req.user.id == req.params.id){
+    Pedido.find({'username': id}).exec(function(error, pedidos){
+        if(error){
+            console.log(error);
+            return error;
+        }else{
+            pedidos.findById(idPedido, function(e, pedido){
+                return res.status(200).json(pedido);
+            })
+        }
+    });
+    //}else{
+    //  res.status(403).render('error', {error: FORBIDDEN_ERROR });
+    //}
 }
 
 function modifyUser(req, res, next){
@@ -234,6 +286,7 @@ module.exports = {
 	getUser,
 	searchUsers,
 	userPedido,
+    usuarioPedido,
 	modifyUser,
 	userAddStuff,
 	searchModifyUser,
@@ -241,5 +294,6 @@ module.exports = {
 	deleteUser,
 	searchDeleteUser,
 	saveUser,
-	addProduct
+	addProduct,
+    getUserProducts
 }
