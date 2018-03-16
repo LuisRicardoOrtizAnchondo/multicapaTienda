@@ -84,6 +84,7 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //app.use('/', login);
+//RUTAS
 app.use('/productos', producto);
 app.use('/user', usuario);
 app.use('/pedido', pedido);

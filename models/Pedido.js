@@ -8,17 +8,16 @@ var Pedido = new Schema({
     iva: {type: Number, required: true},
     subTotal: {type: Number, required: true},
     prods: [{
-    	prod: {_id: {type: Schema.ObjectId, ref: 'Producto'}}//, nombre: String, canti: Number, importe: Number}
+        type: Schema.ObjectId, ref: 'Entrada'
     }]
 });
 
 //Pedido.plugin(passportLocalMongoose);
 module.exports = mongoose.model('Pedido', Pedido);
-/*
+
 var Pedido = {
-    username: 'algo',//'alguien@alguien.com',//{type: Schema.ObjectId, ref: 'Usuario'},
+    username: 'Canito',//'alguien@alguien.com',//{type: Schema.ObjectId, ref: 'Usuario'},
     total: 115,
     iva: 15,
     subTotal: 100,
 }
-*/

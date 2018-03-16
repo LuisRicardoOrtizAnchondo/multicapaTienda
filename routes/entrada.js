@@ -2,7 +2,7 @@ const express = require('express');
 const login = require('../controllers/login')
 const router = express.Router();
 
-router.use(login.auth)
+//router.use(login.auth)
 /*
 router.get('/', homeworkController.findUserHomeworks);
 router.get('/new', homeworkController.newHomework);

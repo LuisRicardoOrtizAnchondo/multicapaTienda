@@ -208,6 +208,33 @@ function userAddStuff(req, res, next){
     });
 }
 
+function addProduct(req, res, next){
+  let idProd = req.params.idProd;
+  let canti = req.params.canti;
+  let idPedido = req.params.pedido;
+  let idUsuario = req.params.idUsuario; //usar username
+
+  //Pedido.findByIdAndUpdate(idPedido, );
+}
+
+
+function userPedido(req, res, next){
+  let id = req.params.id;
+  //if(req.user.role == 'admin' || req.user.id == req.params.id){
+    Pedido.find({'username': id}).exec(function(error, pedidos){
+      if(error){
+        console.log(error);
+        return error;
+      }else{
+        return res.status(200).json(pedidos);
+      }
+    });
+  //}else{
+  //  res.status(403).render('error', {error: FORBIDDEN_ERROR });
+  //}
+}
+
+
 module.exports ={
   index,
   registerView,
@@ -221,5 +248,6 @@ module.exports ={
   searchUsers,
   userPedido,
   userPedidoEspecifico,
-  userAddStuff
+  userAddStuff,
+  addProduct,
 };

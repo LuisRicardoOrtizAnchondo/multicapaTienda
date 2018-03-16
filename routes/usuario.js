@@ -1,10 +1,12 @@
 const express = require('express');
-const usuarioController = require('../controllers/login');
+//const usuarioController = require('../controllers/login');
+const usuarioController = require('../controllers/usuario');
 const router = express.Router();
 const passport = require('passport');
 //router.use(usuarioController.auth)
 
 //router.get('/', usuarioController.getAllUsers);
+/*
 router.get('/login', usuarioController.loginView);
 router.get('/id/:id', usuarioController.getUser);
 router.get('/query/:str', usuarioController.searchUsers);
@@ -19,6 +21,23 @@ router.post('/register', usuarioController.register);
 router.post('/login', passport.authenticate('local'), function(req, res) {
     res.redirect('/');
 });
+*/
+
+router.post('/', usuarioController.saveUser);
+router.post('/:id', usuarioController.getUser);
+
+router.put('/:id', usuarioController.modifyUser);
+router.put('/query/:str', usuarioController.searchModifyUser);
+//router.put('/:id', usuarioController);
+
+router.delete('/', usuarioController.deleteAllUsers);
+router.delete('/:id', usuarioController.deleteUser);
+router.delete('/query/:str', usuarioController.searchDeleteUser);
+
+router.get('/:id/:pedido/addProd/:canti/:idProd', usuarioController.addProduct);
+router.get('/:id/pedidos', usuarioController.userPedido);
+//curl -X GET http://localhost:3000/user/Canito/pedidos  -H 'Content-Type: application/json'
+
 
 
 /*
