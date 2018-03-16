@@ -3,6 +3,11 @@ const passport = require('passport');
 const Usuario = require('../models/Usuario');
 const FORBIDDEN_ERROR = 'Necesita permisos de admin para realizar esta accion';
 const Pedido = require('../models/Pedido');
+
+
+/*
+Using username as ID por comodidad
+*/
 function index(req, res, next){
     res.render('index');
   /*if (req.user) {
@@ -79,7 +84,7 @@ function auth(req, res, next){
     next();
     return 'logged';
   } else {
-    res.redirect('/');
+    //res.redirect('/register');
     return 'not_logged';
   }
 }
@@ -143,7 +148,7 @@ function searchUsers(req, res, next){
 function userPedido(req, res, next){
   let id = req.params.id;
   //if(req.user.role == 'admin' || req.user.id == req.params.id){
-    Pedido.find({'user': id}).exec(function(error, pedidos){
+    Pedido.find({'username': id}).exec(function(error, pedidos){
       if(error){
         console.log(error);
         return error;
@@ -158,8 +163,9 @@ function userPedido(req, res, next){
 
 function userPedidoEspecifico(req, res, next){
   let id = req.params.id;
+  let idPedido = req.params.idPedido;
   //if(req.user.role == 'admin' || req.user.id == req.params.id){
-    Pedido.find({'user': id}).exec(function(error, pedidos){
+    Pedido.find({'_id': idPedido}).exec(function(error, pedidos){
       if(error){
         console.log(error);
         return error;
@@ -189,6 +195,19 @@ function modifyUser(req, res, next){
   }
 }
 
+function userAddStuff(req, res, next){
+    let canti = req.params.canti;
+    let idProd = req.params.idProd;
+    Pedido.findByIdAndUpdate(idProd, req.body, function(error, pedidos){
+        if(error){
+            console.log(error);
+            return error;
+        }else{
+            return res.status(200).json(productos);
+        }
+    });
+}
+
 module.exports ={
   index,
   registerView,
@@ -201,5 +220,6 @@ module.exports ={
   getUser,
   searchUsers,
   userPedido,
-  userPedidoEspecifico
+  userPedidoEspecifico,
+  userAddStuff
 };

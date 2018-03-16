@@ -11,6 +11,7 @@ router.get('/query/:str', usuarioController.searchUsers);
 //router.get('/new', usuarioController.createUserView);
 router.get('/id/:id/pedidos', usuarioController.userPedido);
 router.get('/id/:id/pedidos/:idPedido', usuarioController.userPedidoEspecifico);
+router.get('/id/:id/pedidos/:idPedido/addProduct/:canti/:idProd', usuarioController.userAddStuff);
 router.get('/register', usuarioController.registerView);
 router.get('/', usuarioController.index);
 router.post('/register', usuarioController.register);

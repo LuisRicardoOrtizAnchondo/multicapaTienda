@@ -2,7 +2,7 @@ const express = require('express');
 const login = require('../controllers/login')
 const router = express.Router();
 const pedidoController = require('../controllers/pedido');
-router.use(login.auth)
+//router.use(login.auth)
 /*
 router.get('/', pedidoController.getAllProducts);
 router.get('/:page/:size', pedidoController.getProducts);

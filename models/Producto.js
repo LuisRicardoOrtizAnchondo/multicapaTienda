@@ -3,10 +3,13 @@ const Schema = mongoose.Schema;
 const passportLocalMongoose = require('passport-local-mongoose');
 
 var Producto = new Schema({
-    //_id: {type: String, required: true},
-    nombre: {type: String, required: true},
+    nombre: {type: String, required: true, unique: true},
     precio: {type: Number, required: true}
 });
 
-Producto.plugin(passportLocalMongoose);
+//Producto.plugin(passportLocalMongoose);
 module.exports = mongoose.model('Producto', Producto);
+/*var Producto = {
+    nombre: 'Chicharrones',
+    precio: 30
+}*/

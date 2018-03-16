@@ -34,6 +34,7 @@ app.use(require('express-session')({
 }));
 
 // passport config
+/*
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join('public')));
@@ -74,26 +75,20 @@ passport.use(new FacebookStrategy({
         });
     }
 ));
-
-
-//Cadena de conexion
-const conString = process.env.DATABASE_URL || 'postgress://postgres:root@localhost:5432/cachorro';
+*/
 app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json());
 app.use(cors());
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //app.use('/', login);
 app.use('/productos', producto);
-app.use('/', usuario);
+app.use('/user', usuario);
 app.use('/pedido', pedido);
 app.use('/entrada', entrada);
 //Conexion con base
-var pgClient = new pg.Client(conString);
 
 var server = app.listen(port, function () {
     var port = server.address().port;
@@ -107,7 +102,7 @@ app.use(function (req, res, next) {
 	res.header("Access-Control-Allow-Methods", "POST, DELETE, PATCH, GET");
     next();
 });
-
+/*
 app.post('/productos', function(req, res){
     var producto = {
 		nombre_producto: req.body.nombre_producto,
@@ -316,5 +311,5 @@ app.delete('/compradores/:id', function (req, res) {
 		})
 	});
 });
-
+*/
 module.exports = app;

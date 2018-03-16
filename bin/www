@@ -14,7 +14,7 @@ mongoose.connect('mongodb://localhost:27017/multicapa', function(err) {
         console.log('Could not connect to mongodb on localhost. Ensure that you have mongodb running on localhost and mongodb accepts connections on standard ports!');
         console.log(e);
     }
-    console.log('Conectados?');
+    console.log('Conectados!!!');
 });
 
 const db = mongoose.connection;

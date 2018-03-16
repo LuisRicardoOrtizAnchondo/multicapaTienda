@@ -9,5 +9,5 @@ var Entrada = new Schema({
     importe: Number
 });
 
-Entrada.plugin(passportLocalMongoose);
+//Entrada.plugin(passportLocalMongoose);
 module.exports = mongoose.model('Entrada', Entrada);
