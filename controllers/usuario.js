@@ -147,8 +147,8 @@ function getUserProducts(req, res, next){
             }
             //TODO: use populate
             let productsArray = [];
-
-            Producto.populate(pedido, {"path": "prods"}, function(e, prods){
+            
+            Producto.populate(pedido, , function(e, prods){
                 res.status(200).json(prods);
             });
             //res.status(200).json(pedido.prods);
@@ -281,6 +281,16 @@ function userAddStuff(req, res, next){
     });
 }
 
+function deletePedido(res, req, next){
+    let id = req.params.id;
+    let idPedido = req.params.idPedido;
+    Usuario.findById(id, function(err, usuario){
+        Pedido.remove({user:usuario}, function(e, pedidos){
+            res.send(200).json(pedidos);
+        });
+    });
+}
+
 module.exports = {
 	register,
 	getUser,
@@ -295,5 +305,6 @@ module.exports = {
 	searchDeleteUser,
 	saveUser,
 	addProduct,
-    getUserProducts
+    getUserProducts,
+    deletePedido
 }
