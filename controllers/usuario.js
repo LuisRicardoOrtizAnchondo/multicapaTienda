@@ -4,6 +4,7 @@ const Usuario = require('../models/Usuario');
 const Pedido = require('../models/Pedido');
 const Producto = require('../models/Producto');
 const Entrada = require('../models/Entrada');
+const ATTENTION = '-------------ATTENTION-------------';
 function register(req, res, next) {
     console.log(req.body);
     try{
@@ -155,16 +156,16 @@ function addProduct(req, res, next){
                         res.send(pedido.populate('prods'));
                         Usuario.findById(idUsuario).exec(function (errUsuario, usuario) {
                             console.log(usuario);
-                            usuario.pedidos.push(entradaNueva._id);
+                            console.log(pedido);
+                            usuario.pedidos.push(pedido._id);
+                            usuario.save();
                         });
 
                     })
                     //Pedido.findById(idPedido);
                 }else{
                     console.log('Hay un pedido pendiente, retomando...');
-                    console.log(pedido[0]);
-
-
+                    console.log(pedido);
                     console.log("importe:");
                     console.log(importe);
                     let entradaBody = {Producto: idProd, cantidad: canti, importe: importe};
@@ -180,22 +181,27 @@ function addProduct(req, res, next){
                     pedido.total += (entrada.importe * entrada.cantidad) + ((entrada.importe * entrada.cantidad) * 0.15);
                     console.log('Total:');
                     console.log(pedido.total);
-                    pedido.save();
-                    entrada.save(function (err, entradaNueva) {
-                        if (err) {
-                            console.log(err);
-                        }
-                        console.log("entrada:");
-                        console.log(entradaNueva._id);
-                        pedido.save();
-                        res.send(pedido.populate('prods'));
-                        //{'_id': idUsuario, 'pedidos.pending': true}
-                        Usuario.findById(idUsuario).exec(function (errUsuario, usuario) {
-                            console.log(usuario);
-                            usuario.pedidos.push(pedido._id);
-
+                    pedido.save(function(er,ok){
+                        console.log('Pedidididido:');
+                        console.log(pedido);
+                        entrada.save(function (err, entradaNueva) {
+                            if (err) {
+                                console.log(err);
+                            }
+                            console.log("entrada:");
+                            console.log(entradaNueva._id);
+                            pedido.save();
+                            res.send(pedido.populate('prods'));
+                            //{'_id': idUsuario, 'pedidos.pending': true}
+                            Usuario.findById(idUsuario).exec(function (errUsuario, usuario) {
+                                console.log(usuario);
+                                console.log(pedido);
+                                usuario.pedidos.push(pedido._id);
+                                usuario.save();
+                            });
                         });
                     });
+
                 }
             });
     });
@@ -241,9 +247,9 @@ function getUserProducts(req, res, next){
 }
 
 function userPedido(req, res, next){
-  let id = req.params.id;
+  let idUsuario = req.params.id;
   //if(req.user.role == 'admin' || req.user.id == req.params.id){
-    Pedido.find({'username': id}).exec(function(error, pedidos){
+    Pedido.find({'user': idUsuario}).exec(function(error, pedidos){
       if(error){
         console.log(error);
         return error;
@@ -260,14 +266,37 @@ function usuarioPedido(req, res, next){
     let id = req.params.id;
     let idPedido = req.params.pedido;
     //if(req.user.role == 'admin' || req.user.id == req.params.id){
-    Pedido.find({'username': id}).exec(function(error, pedidos){
+    Pedido.find({'user': id, '_id': idPedido}).exec(function(error, pedido){
         if(error){
             console.log(error);
             return error;
         }else{
-            pedidos.findById(idPedido, function(e, pedido){
+            console.log("Pedido con usuario especificos:");
+            console.log(pedido);
+            //pedidos.findById(idPedido, function(e, pedido){
                 return res.status(200).json(pedido);
-            })
+            //})
+        }
+    });
+    //}else{
+    //  res.status(403).render('error', {error: FORBIDDEN_ERROR });
+    //}
+}
+
+function userPedidoProds(req, res, next){
+    let id = req.params.id;
+    let idPedido = req.params.pedido;
+    //if(req.user.role == 'admin' || req.user.id == req.params.id){
+    Pedido.findOne({'user': id, '_id': idPedido}).exec(function(error, pedido){
+        if(error){
+            console.log(error);
+            return error;
+        }else{
+            console.log("Pedido con usuario especificos:");
+            console.log(pedido);
+            //pedidos.findById(idPedido, function(e, pedido){
+            return res.status(200).json(pedido.prods);
+            //})
         }
     });
     //}else{
@@ -338,6 +367,21 @@ function deleteUser(req, res, next){
     });
 }
 
+function deleteProd(req, res, next){
+    let id = req.params.id;
+    let idPedido = req.params.idPedido;
+    let idProd = req.params.idProd;
+    Usuario.findById(id, function(err, usuario){
+        Pedido.findOne({user:id, _id:idPedido}, function(e, pedido){
+            console.log('ESTE es el pedido:');
+            console.log(pedido);
+            pedido.prods.splice(idProd, 1);
+            pedido.save();
+            res.send('Producto eliminado de su pedido (carrito)');
+        });
+    });
+}
+
 function searchDeleteUser(req, res, next){
 	Usuario.remove({"username": {$regex: '.*' + req.params.str + '.*'}}, function(error, us){
 		if(error){
@@ -364,14 +408,24 @@ function userAddStuff(req, res, next){
     });
 }
 
-function deletePedido(res, req, next){
+function deletePedido(req, res, next){
     let id = req.params.id;
+    console.log('PARAMS:');
+    console.log(req.params);
     let idPedido = req.params.idPedido;
-    Usuario.findById(id, function(err, usuario){
-        Pedido.remove({user:usuario}, function(e, pedidos){
-            res.send(200).json(pedidos);
-        });
-    });
+    try {
+            Pedido.findByIdAndRemove(idPedido, function (e, pedidos) {
+                console.log(pedidos);
+                //res.send(200).json(pedidos);
+                res.send('Eliminacion exitosa!');
+                Usuario.findById(id).exec(function(e, usuario){
+                    usuario.pedidos.splice(idPedido, 1);
+                    usuario.save();
+                });
+            });
+    }catch(e){
+        res.send('Nada hay que eliminar por el momento');
+    }
 }
 
 module.exports = {
@@ -391,5 +445,7 @@ module.exports = {
 	addProduct,
     getUserProducts,
     deletePedido,
-    pay
+    deleteProd,
+    pay,
+    userPedidoProds
 }
