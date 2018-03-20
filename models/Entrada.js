@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const passportLocalMongoose = require('passport-local-mongoose');
 
+
 var Entrada = new Schema({
     Pedido: {type: Schema.ObjectId, ref: 'Pedido'},
     Producto: {type: Schema.ObjectId, ref: 'Producto'},

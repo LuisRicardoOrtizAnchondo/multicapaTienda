@@ -29,6 +29,19 @@ function register(req, res, next) {
     };
 }
 
+function getAllUsers(req, res, next){
+    Usuario.find({},function(error, usuarios){
+        if(error){
+            console.log(error);
+            return error;
+        }else{
+            console.log('todos los usuarios');
+            console.log(usuarios);
+            return res.status(200).json(usuarios);
+        }
+    });
+}
+
 function saveUser(req, res, next){
 	console.log(req.body);
 	let usuario = new Usuario(req.body);
@@ -68,7 +81,8 @@ function getUser(req, res, next){
 
 function searchUsers(req, res, next){
   let query = req.params.str;
-    Usuario.find({username: query}).exec(function(error, usuarios){
+  console.log('Query: ' + query);
+    Usuario.find({username: {$regex : '.*' + query + '.*'}}).exec(function(error, usuarios){
       if(error){
         console.log(error);
         return error;
@@ -78,62 +92,131 @@ function searchUsers(req, res, next){
     });
 }
 
+function pay(req, res, next){
+    let idPedido = req.params.idPedido;
+    Pedido.findById(idPedido).exec(function(err, pedido){
+        if(pedido.pending == true) {
+            pedido.pending = false;
+            pedido.save(function (err) {
+                if (err) {
+                    console.log(err);
+                    res.status.send(pedido);
+                }
+                res.status(200).send('Su pedido ha sido pagado!');
+            });
+        }else{
+            res.status(400).send('Su pedido ya sido pagado ates, no necesita hacerlo de nuevo!');
+        }
+    });
+}
+
 function addProduct(req, res, next){
     let idProd = req.params.idProd;
     let canti = req.params.canti;
     //let idPedido = new Object(req.params.pedido);
-    let idPedido = req.params.pedido;
+    //let idPedido = req.params.pedido;
     let idUsuario = req.params.id; //usar username
-    try {
-        Producto.findById(idProd, function (error, producto) {
-            console.log(producto);
-            if (error) {
-                console.log(error);
-            }
-            let importe = producto.precio * canti;
-            console.log("importe:");
-            console.log(importe);
-            let entradaBody = {idPedido: idPedido, idProd: idProd, canti: canti, importe: importe};
-            let entrada = new Entrada(entradaBody);
-            entrada.save(function (err, entradaNueva) {
-                if (err) {
-                    console.log(err);
+    //pedidin.push(producto);
+    Pedido.findOne({user: idUsuario, pending : true}, function (e, pedido) {
+        console.log("pendientes:");
+        console.log(pedido);
+        //if(pedido == []) {
+            //Crear un pedido si no hay uno pendiente
+            Producto.findById(idProd, function (error, producto) {
+                console.log(producto);
+                if (error) {
+                    console.log(error);
                 }
-                console.log("entrada:");
-                console.log(entradaNueva._id);
-                Pedido.findById(idPedido, function (e, pedido) {
-                    console.log("Pedido:");
-                    console.log(pedido);
-                    if (e) {
-                        console.log(e);
-                    }
-                    if(pedido.prods) {
-                        pedido.prods.push(entradaNueva._id);
-                    }
-
-                    pedido.save(function(ee){
-                        Producto.find({},function(eee,productos){
-                            pedido.populate(productos, {path: "prods"}, function(errors, complete){
-                                //console.log(ee);
-                                console.log(complete);
-                                if(errors){
-                                    console.log(errors);
-                                    res.send(errors);
-                                }
-                                res.status(200).json(complete);
-                            });
+                let importe = producto.precio;
+                let total = 0;
+                let subTotal = 0;
+                if(pedido == null) {
+                    console.log('No hay pedidos pendientes, creando uno nuevo...');
+                    let pedidoBody = {user: idUsuario, total: total, iva: 15, subTotal: subTotal};
+                    let pedido = new Pedido(pedidoBody);
+                    //let importe = producto.precio * canti;
+                    console.log("importe:");
+                    console.log(importe);
+                    let entradaBody = {Producto: idProd, cantidad: canti, importe: importe};
+                    console.log('entradaBody:');
+                    console.log(entradaBody);
+                    let entrada = new Entrada(entradaBody);
+                    entrada.save(function (err, entradaNueva) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        console.log("entrada:");
+                        console.log(entradaNueva._id);
+                        pedido.prods.push(idProd);
+                        pedido.subTotal += entrada.importe * entrada.cantidad;
+                        pedido.total += (entrada.importe * entrada.cantidad) + ((entrada.importe * entrada.cantidad) * 0.15);
+                        pedido.save();
+                        //{'_id': idUsuario, 'pedidos.pending': true}
+                        res.send(pedido.populate('prods'));
+                        Usuario.findById(idUsuario).exec(function (errUsuario, usuario) {
+                            console.log(usuario);
+                            usuario.pedidos.push(entradaNueva._id);
                         });
 
+                    })
+                    //Pedido.findById(idPedido);
+                }else{
+                    console.log('Hay un pedido pendiente, retomando...');
+                    console.log(pedido[0]);
 
+
+                    console.log("importe:");
+                    console.log(importe);
+                    let entradaBody = {Producto: idProd, cantidad: canti, importe: importe};
+                    console.log('entradaBody:');
+                    console.log(entradaBody);
+                    let entrada = new Entrada(entradaBody);
+                    pedido.prods.push(entrada);
+                    console.log('dinero:');
+                    console.log(entrada);
+                    pedido.subTotal += entrada.importe * entrada.cantidad;
+                    console.log('subTotal:');
+                    console.log(pedido.subTotal);
+                    pedido.total += (entrada.importe * entrada.cantidad) + ((entrada.importe * entrada.cantidad) * 0.15);
+                    console.log('Total:');
+                    console.log(pedido.total);
+                    pedido.save();
+                    entrada.save(function (err, entradaNueva) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        console.log("entrada:");
+                        console.log(entradaNueva._id);
+                        pedido.save();
+                        res.send(pedido.populate('prods'));
+                        //{'_id': idUsuario, 'pedidos.pending': true}
+                        Usuario.findById(idUsuario).exec(function (errUsuario, usuario) {
+                            console.log(usuario);
+                            usuario.pedidos.push(pedido._id);
+
+                        });
                     });
-                })
-                //Pedido.findById(idPedido);
+                }
             });
+    });
+/*
+    try {
+        Usuario.find({'username': idUsuario, 'pedidos.pending': true}).exec(function(errUsuario, usuario){
+           //if(usuario.pedidos[i].pending == true){
+
+            //}
+            console.log('usuario:::');
+            console.log(usuario);
+            res.send(usuario);
         });
+        //Pedido.find({user: idUsuario})
+
+
+       // });
     }catch(e){
         console.log(e);
         res.send(e);
-    };
+    };*/
     //Pedido.findByIdAndUpdate(idPedido, );
 }
 
@@ -148,9 +231,9 @@ function getUserProducts(req, res, next){
             //TODO: use populate
             let productsArray = [];
             
-            Producto.populate(pedido, , function(e, prods){
+            /*Producto.populate(pedido, , function(e, prods){
                 res.status(200).json(prods);
-            });
+            });*/
             //res.status(200).json(pedido.prods);
 
         })
@@ -294,6 +377,7 @@ function deletePedido(res, req, next){
 module.exports = {
 	register,
 	getUser,
+    getAllUsers,
 	searchUsers,
 	userPedido,
     usuarioPedido,
@@ -306,5 +390,6 @@ module.exports = {
 	saveUser,
 	addProduct,
     getUserProducts,
-    deletePedido
+    deletePedido,
+    pay
 }

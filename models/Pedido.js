@@ -9,7 +9,8 @@ var Pedido = new Schema({
     subTotal: {type: Number, required: true},
     prods: [{
         type: Schema.ObjectId, ref: 'Entrada'
-    }]
+    }],
+    pending: {type: Boolean, default: true}
 });
 
 //Pedido.plugin(passportLocalMongoose);
