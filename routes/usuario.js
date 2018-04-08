@@ -44,7 +44,7 @@ router.get('/query/:str', usuarioController.searchUsers);
 router.get('/pagar/:idPedido', usuarioController.pay);
 router.get('/:id/pedidos', usuarioController.userPedido);
 router.get('/:id/:pedido/prods', usuarioController.userPedidoProds);
-router.get('/:id/:pedido/', usuarioController.usuarioPedido);
+router.get('/:id/:pedido', usuarioController.usuarioPedido);
 router.get('/:id', usuarioController.getUser);
 
 //curl -X GET http://localhost:3000/user/Canito/pedidos  -H 'Content-Type: application/json'

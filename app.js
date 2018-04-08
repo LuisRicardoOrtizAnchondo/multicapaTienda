@@ -17,7 +17,7 @@ const producto = require('./routes/producto');
 const pedido = require('./routes/pedido');
 const entrada = require('./routes/entrada');
 const engines = require('consolidate');
-
+const multicapa = require('multicapaRichiModule');
 
 app.engine('html', engines.hogan);
 app.set('views', path.join(__dirname, 'views'));
@@ -32,7 +32,8 @@ app.use(require('express-session')({
     resave: false,
     saveUninitialized: false
 }));
-
+multicapa.printMsg();
+multicapa.getUsers();
 // passport config
 /*
 app.use(passport.initialize());

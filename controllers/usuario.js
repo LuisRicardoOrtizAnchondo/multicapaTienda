@@ -196,8 +196,8 @@ function addProduct(req, res, next){
                             Usuario.findById(idUsuario).exec(function (errUsuario, usuario) {
                                 console.log(usuario);
                                 console.log(pedido);
-                                usuario.pedidos.push(pedido._id);
-                                usuario.save();
+                                //usuario.pedidos.push(pedido._id);
+                                //usuario.save();
                             });
                         });
                     });
@@ -266,7 +266,7 @@ function usuarioPedido(req, res, next){
     let id = req.params.id;
     let idPedido = req.params.pedido;
     //if(req.user.role == 'admin' || req.user.id == req.params.id){
-    Pedido.find({'user': id, '_id': idPedido}).exec(function(error, pedido){
+    Pedido.findById(idPedido).exec(function(error, pedido){
         if(error){
             console.log(error);
             return error;
@@ -376,8 +376,12 @@ function deleteProd(req, res, next){
             console.log('ESTE es el pedido:');
             console.log(pedido);
             pedido.prods.splice(idProd, 1);
-            pedido.save();
-            res.send('Producto eliminado de su pedido (carrito)');
+            Producto.findById(idProd).exec(function(e, producto){
+                pedido.save();
+                res.send('Producto eliminado de su pedido (carrito)');
+                pedido.subTotal -= (producto.importe * producto.cantidad);
+                pedido.total -= (producto.importe * producto.cantidad) + (producto.importe * producto.cantidad * 0.15);
+            });
         });
     });
 }
