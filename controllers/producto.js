@@ -139,8 +139,11 @@ function deleteProduct(req, res, next){
 //Test it!
 //curl -X POST http://localhost:3000/productos/new -d '{"nombre" : "donitas", "precio": "10"}' -H 'Content-Type: application/json'
 function createProduct(req, res, next){
+console.log('cuerpo----------');
+console.log(req.body);
 	let product = new Producto(req.body);
 	//if(req.usuario.role == 'admin'){
+console.log('------------------------');
 	console.log(product);
 		product.save(product, function (error, exito){
 			if(error){

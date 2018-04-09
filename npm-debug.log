@@ -1,0 +1,74 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/nodejs', '/usr/bin/npm', 'install', 'serve-favicon' ]
+2 info using npm@1.3.10
+3 info using node@v0.10.25
+4 warn package.json ventas@1.0.0 No repository field.
+5 verbose readDependencies using package.json deps
+6 verbose cache add [ 'serve-favicon@^2.4.5', null ]
+7 verbose cache add name=undefined spec="serve-favicon@^2.4.5" args=["serve-favicon@^2.4.5",null]
+8 verbose parsed url { protocol: null,
+8 verbose parsed url   slashes: null,
+8 verbose parsed url   auth: null,
+8 verbose parsed url   host: null,
+8 verbose parsed url   port: null,
+8 verbose parsed url   hostname: null,
+8 verbose parsed url   hash: null,
+8 verbose parsed url   search: null,
+8 verbose parsed url   query: null,
+8 verbose parsed url   pathname: 'serve-favicon@^2.4.5',
+8 verbose parsed url   path: 'serve-favicon@^2.4.5',
+8 verbose parsed url   href: 'serve-favicon@^2.4.5' }
+9 verbose cache add name="serve-favicon" spec="^2.4.5" args=["serve-favicon","^2.4.5"]
+10 verbose parsed url { protocol: null,
+10 verbose parsed url   slashes: null,
+10 verbose parsed url   auth: null,
+10 verbose parsed url   host: null,
+10 verbose parsed url   port: null,
+10 verbose parsed url   hostname: null,
+10 verbose parsed url   hash: null,
+10 verbose parsed url   search: null,
+10 verbose parsed url   query: null,
+10 verbose parsed url   pathname: '^2.4.5',
+10 verbose parsed url   path: '^2.4.5',
+10 verbose parsed url   href: '^2.4.5' }
+11 verbose addNamed [ 'serve-favicon', '^2.4.5' ]
+12 verbose addNamed [ null, '>=2.4.5-0 <3.0.0-0' ]
+13 silly lockFile eea5ce68-serve-favicon-2-4-5 serve-favicon@^2.4.5
+14 verbose lock serve-favicon@^2.4.5 /root/.npm/eea5ce68-serve-favicon-2-4-5.lock
+15 silly addNameRange { name: 'serve-favicon',
+15 silly addNameRange   range: '>=2.4.5-0 <3.0.0-0',
+15 silly addNameRange   hasData: false }
+16 verbose url raw serve-favicon
+17 verbose url resolving [ 'https://registry.npmjs.org/', './serve-favicon' ]
+18 verbose url resolved https://registry.npmjs.org/serve-favicon
+19 info trying registry request attempt 1 at 23:59:37
+20 http GET https://registry.npmjs.org/serve-favicon
+21 info retry will retry, error on last attempt: Error: CERT_UNTRUSTED
+22 info trying registry request attempt 2 at 23:59:47
+23 http GET https://registry.npmjs.org/serve-favicon
+24 info retry will retry, error on last attempt: Error: CERT_UNTRUSTED
+25 info trying registry request attempt 3 at 00:00:47
+26 http GET https://registry.npmjs.org/serve-favicon
+27 silly lockFile eea5ce68-serve-favicon-2-4-5 serve-favicon@^2.4.5
+28 silly lockFile eea5ce68-serve-favicon-2-4-5 serve-favicon@^2.4.5
+29 error Error: CERT_UNTRUSTED
+29 error     at SecurePair.<anonymous> (tls.js:1370:32)
+29 error     at SecurePair.EventEmitter.emit (events.js:92:17)
+29 error     at SecurePair.maybeInitFinished (tls.js:982:10)
+29 error     at CleartextStream.read [as _read] (tls.js:469:13)
+29 error     at CleartextStream.Readable.read (_stream_readable.js:320:10)
+29 error     at EncryptedStream.write [as _write] (tls.js:366:25)
+29 error     at doWrite (_stream_writable.js:223:10)
+29 error     at writeOrBuffer (_stream_writable.js:213:5)
+29 error     at EncryptedStream.Writable.write (_stream_writable.js:180:11)
+29 error     at write (_stream_readable.js:583:24)
+30 error If you need help, you may report this log at:
+30 error     <http://github.com/isaacs/npm/issues>
+30 error or email it to:
+30 error     <npm-@googlegroups.com>
+31 error System Linux 3.13.0-128-generic
+32 error command "/usr/bin/nodejs" "/usr/bin/npm" "install" "serve-favicon"
+33 error cwd /root/multicapaTienda
+34 error node -v v0.10.25
+35 error npm -v 1.3.10
+36 verbose exit [ 1, true ]
